@@ -35,6 +35,34 @@ class DMSEScheduler(DDPMScheduler):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.snrs = self.alphas_cumprod / (1. - self.alphas_cumprod)
+        self.snrs_dB = 10 * torch.log10(self.snrs)
+
+    def init_step(self, snr, is_logarithmic=True):
+        """
+        Calculates the initial timestep for denoising a given observation according to eq. (12) in
+        https://arxiv.org/abs/2403.02957.
+
+        Args:
+            snr (`float`):
+                The SNR of the observation.
+            is_logarithmic (`bool`, *optional*, defaults to `True`):
+                Whether the SNR is given in logarithmic scale (dB) or in linear scale.
+
+        Returns:
+            'torch.Tensor':
+                The initial timestep of the diffusion model for running the denoising process.
+            'int':
+                The index of the self.timesteps array to which the initial timestep corresponds.
+        """
+        if is_logarithmic:
+            t = int(torch.abs(self.snrs_dB - snr).argmin())
+        else:
+            t = int(torch.abs(self.snrs - snr).argmin())
+        idx = int(torch.abs(self.timesteps - t).argmin())
+        t = self.timesteps[idx]
+        return t, idx
+
     def step(
             self,
             model_output: torch.Tensor,

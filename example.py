@@ -7,13 +7,17 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     scheduler = DMSEScheduler.from_pretrained("google/ddpm-cat-256")
     model = UNet2DModel.from_pretrained("google/ddpm-cat-256").to(device)
-    scheduler.set_timesteps(5)
+    scheduler.set_timesteps(50)
 
     sample_size = model.config.sample_size
     noise = torch.randn((1, 3, sample_size, sample_size), device=device)
     input = noise
 
-    for t in scheduler.timesteps:
+    snr_dB = 10
+
+    t_init, idx = scheduler.init_step(snr=snr_dB, is_logarithmic=True)
+
+    for t in scheduler.timesteps[idx:]:
         with torch.no_grad():
             noisy_residual = model(input, t).sample
             prev_noisy_sample = scheduler.step(noisy_residual, t, input).prev_sample

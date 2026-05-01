@@ -1,1 +1,26 @@
-*.idea
+# IDE/editor
+.idea/
+.vscode/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Packaging/build artifacts
+dist/
+build/
+*.egg-info/
+
+# macOS/archive metadata
+__MACOSX/
+.DS_Store

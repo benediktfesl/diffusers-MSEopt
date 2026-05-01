@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diffusers-dmse"
+version = "0.1.0"
+description = "MSE-optimal diffusion model scheduler (DMSE) for the HuggingFace diffusers library"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "diffusers>=0.20.0",
+    "torch>=1.13.0",
+]
+keywords = ["diffusion models", "denoising", "MSE", "scheduler", "diffusers"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff",
+    "build",
+    "twine",
+]
+
+[project.urls]
+Homepage = "https://github.com/benediktfesl/diffusers-MSEopt"
+Paper = "https://arxiv.org/abs/2403.02957"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

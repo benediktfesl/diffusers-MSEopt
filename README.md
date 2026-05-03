@@ -1,14 +1,18 @@
 # diffusers-dmse
 
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](LICENSE)
+[![Package](https://img.shields.io/badge/package-PyPI-informational.svg)](https://pypi.org/project/diffusers-dmse/)
+
 MSE-optimal diffusion model scheduler (**DMSE**) for the [HuggingFace diffusers](https://github.com/huggingface/diffusers) library.
 
 Inherits `DDPMScheduler` and modifies the reverse process to omit stochastic resampling,
 yielding a deterministic path that converges to the conditional mean estimator (CME) —
 the MSE-optimal denoiser.
 
-## Paper
+## Related Paper
 
-B. Fesl, B. Böck, F. Strasser, M. Baur, M. Joham, W. Utschick,
+**B. Fesl**, B. Böck, F. Strasser, M. Baur, M. Joham, W. Utschick,
 "On the Asymptotic Mean Square Error Optimality of Diffusion Models,"
 *AISTATS 2025*.
 
